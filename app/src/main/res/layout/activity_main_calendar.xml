@@ -6,4 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainCalendarActivity">
 
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/compactcalendar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="1dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="visible"
+        app:compactCalendarBackgroundColor="#fff"
+        app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarMultiEventIndicatorColor="#041c92"
+        app:compactCalendarTargetHeight="250dp"
+        app:compactCalendarTextColor="#000"
+        app:compactCalendarTextSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="174dp"
+        android:layout_height="34dp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="50dp" />
+
 </android.support.constraint.ConstraintLayout>

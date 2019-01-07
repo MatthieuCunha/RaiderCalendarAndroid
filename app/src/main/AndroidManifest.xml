@@ -14,7 +14,14 @@
         <activity android:name=".createEventActivity" />
         <activity android:name=".createGroupActivity" />
         <activity android:name=".joinGroupRequestActivity" />
-        <activity android:name=".manageGroupActivity"></activity>
+        <activity android:name=".manageGroupActivity" />
+        <activity android:name=".loginPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
