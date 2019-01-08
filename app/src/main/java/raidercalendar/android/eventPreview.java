@@ -1,21 +1,33 @@
 package raidercalendar.android;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 
 /*
 * Class containing the minimal data for Event preview on the calendar
 *
  */
-public class eventPreview {
-    private String ID;
-    private Date date;
-    private String Name;
+public class eventPreview  extends SugarRecord<eventPreview> {
 
-    public String getID() {
+    private Long ID;
+    private Date date;
+    private String name;
+
+
+    public eventPreview(){};
+
+    public eventPreview(String name,Date date){
+        this.name=name;
+        this.date=date;
+        this.ID=super.id;
+    };
+
+    public Long getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 
@@ -28,20 +40,12 @@ public class eventPreview {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
-
-    public void save(){
-
-    }
-
-    public void load(String id){
-
-    }
 
 }

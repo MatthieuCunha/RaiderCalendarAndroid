@@ -17,7 +17,7 @@ public class loginPage extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
 
         final Context c=this;
-        dataBaseSetUp db = new dataBaseSetUp(c);
+        dataBaseSetUp db = new dataBaseSetUp();
        // db.addData();
 
 
