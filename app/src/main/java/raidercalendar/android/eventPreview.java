@@ -1,6 +1,7 @@
 package raidercalendar.android;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.util.Date;
 
@@ -14,6 +15,9 @@ public class eventPreview  extends SugarRecord<eventPreview> {
     private Date date;
     private String name;
 
+
+    @Ignore
+    private String status;
 
     public eventPreview(){};
 
@@ -47,5 +51,12 @@ public class eventPreview  extends SugarRecord<eventPreview> {
         this.name = name;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 }

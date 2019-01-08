@@ -1,33 +1,46 @@
 package raidercalendar.android;
 
-public class EventStatus {
+import com.orm.SugarRecord;
 
-    private String uniqID;
-    private String eventID;
-    private String playerID;
+public class EventStatus extends SugarRecord<EventStatus> {
+
+    private Long uniqID;
+    private Long eventID;
+    private Long playerID;
     private String status;
 
-    public String getUniqID() {
+    public EventStatus(){
+        this.uniqID=super.id;
+    }
+
+    public EventStatus(long eventId,long playerID){
+        this.uniqID=super.id;
+        this.eventID=eventId;
+        this.playerID=playerID;
+        this.status="PENDING";
+    }
+
+    public Long getUniqID() {
         return uniqID;
     }
 
-    public void setUniqID(String uniqID) {
+    public void setUniqID(Long uniqID) {
         this.uniqID = uniqID;
     }
 
-    public String getEventID() {
+    public Long getEventID() {
         return eventID;
     }
 
-    public void setEventID(String eventID) {
+    public void setEventID(Long eventID) {
         this.eventID = eventID;
     }
 
-    public String getPlayerID() {
+    public Long getPlayerID() {
         return playerID;
     }
 
-    public void setPlayerID(String playerID) {
+    public void setPlayerID(Long playerID) {
         this.playerID = playerID;
     }
 

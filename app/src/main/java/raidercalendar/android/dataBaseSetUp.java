@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,10 +21,29 @@ public class dataBaseSetUp {
     public  dataBaseSetUp(){
         Date date = new Date();
         eventPreview ev1 = new eventPreview("event1",date);
-        eventPreview ev2 = new eventPreview("event2",date);
-
+        eventPreview ev2 = null;
+        try {
+            ev2 = new eventPreview("event2",dateFormat.parse("2019-02-10 21:00:00"));
+            ev2.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         ev1.save();
-        ev2.save();
+
+        User user1=new User("user1","password","tmpToken");
+        User user2=new User("user2","password","token");
+
+        user1.save();
+        user2.save();
+
+        EventStatus eventStatus1 = new EventStatus(ev1.getID(),user1.getID());
+        EventStatus eventStatus2 = new EventStatus(ev2.getID(),user1.getID());
+        EventStatus eventStatus3 = new EventStatus(ev1.getID(),user2.getID());
+
+        eventStatus1.save();
+        eventStatus2.save();
+        eventStatus3.save();
+
 
     }
 

@@ -16,6 +16,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainCalendarActivity extends AppCompatActivity {
@@ -75,7 +76,19 @@ public class MainCalendarActivity extends AppCompatActivity {
 
     private void loadEvent(){
 
+        List<eventPreview> eventPreviewList=dataRequest.getEventList(TokenHolder.getInstance().getToken());
+        int i = 0;
+        while (i < eventPreviewList.size()) {
 
+            String name = eventPreviewList.get(i).getName();
+            String status = eventPreviewList.get(i).getStatus();
+            Date date = eventPreviewList.get(i).getDate();
+
+            Event ev1 = new Event(Color.GREEN, date.getTime() , name);
+            compactCalendar.addEvent(ev1);
+
+            i++;
+        }
 
     }
 
