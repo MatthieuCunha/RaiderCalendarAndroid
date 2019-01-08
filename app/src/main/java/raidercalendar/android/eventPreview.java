@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class eventPreview  extends SugarRecord<eventPreview> {
 
-    private Long ID;
+   // private Long ID;
     private Date date;
     private String name;
 
@@ -19,21 +19,25 @@ public class eventPreview  extends SugarRecord<eventPreview> {
     @Ignore
     private String status;
 
-    public eventPreview(){};
+    public eventPreview(){
+       // this.ID=this.getId(); // recuperation de l'id sugarORM
+    };
 
     public eventPreview(String name,Date date){
         this.name=name;
         this.date=date;
-        this.ID=super.id;
+       // this.ID=this.getId(); // recuperation de l'id sugarORM
+
+
     };
 
     public Long getID() {
-        return ID;
+        return this.getId();
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
+   // public void setID(Long ID) {
+    //    this.ID = ID;
+    //}
 
     public Date getDate() {
         return date;
