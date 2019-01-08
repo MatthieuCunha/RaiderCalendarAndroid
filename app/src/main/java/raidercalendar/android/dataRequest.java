@@ -1,7 +1,9 @@
+package raidercalendar.android;
+
 import android.util.ArrayMap;
 
 /*
-* Handle dataRequest from the different activity
+* Handle raidercalendar.android.dataRequest from the different activity
 * Later by using the API, for now Hard Coded data
  */
 public class dataRequest {

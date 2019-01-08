@@ -42,6 +42,8 @@ public class MainCalendarActivity extends AppCompatActivity {
         Event ev1 = new Event(Color.GREEN, 1547144536100L, "testEvent");
         compactCalendar.addEvent(ev1);
 
+        this.loadEvent();
+
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
@@ -71,5 +73,10 @@ public class MainCalendarActivity extends AppCompatActivity {
     }
 
 
+    private void loadEvent(){
+
+
+
+    }
 
 }

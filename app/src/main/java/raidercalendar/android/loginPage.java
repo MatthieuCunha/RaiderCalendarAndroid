@@ -1,5 +1,6 @@
 package raidercalendar.android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,11 @@ public class loginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+
+        final Context c=this;
+        dataBaseSetUp db = new dataBaseSetUp(c);
+       // db.addData();
+
 
         validerButton = (Button) findViewById(R.id.validerLogin) ;
         validerButton.setOnClickListener(new View.OnClickListener() {
