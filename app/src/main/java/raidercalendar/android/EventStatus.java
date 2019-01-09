@@ -5,18 +5,16 @@ import com.orm.SugarRecord;
 public class EventStatus extends SugarRecord<EventStatus> {
 
    // private Long uniqID;
-    private Long event_id;
-    private Long player_id;
+    private Long eventId;
+    private Long playerid;
     private String status;
 
-    public EventStatus(){
-        //this.uniqID=this.getId(); // recuperation de l'id sugarORM
-    }
+    public EventStatus(){}
 
-    public EventStatus(long event_id,long player_id){
+    public EventStatus(long eventId,long playerId){
        // this.uniqID=this.getId(); // recuperation de l'id sugarORM
-        this.event_id=event_id;
-        this.player_id=player_id;
+        this.eventId=eventId;
+        this.playerid=playerId;
         this.status="PENDING";
     }
 
@@ -29,19 +27,19 @@ public class EventStatus extends SugarRecord<EventStatus> {
   //  }
 
     public Long getEventID() {
-        return event_id;
+        return eventId;
     }
 
-    public void setEventID(Long event_id) {
-        this.event_id = event_id;
+    public void setEventID(Long eventId) {
+        this.eventId = eventId;
     }
 
     public Long getPlayerID() {
-        return player_id;
+        return playerid;
     }
 
-    public void setPlayerID(Long player_id) {
-        this.player_id = player_id;
+    public void setPlayerID(Long playerId) {
+        this.playerid = playerId;
     }
 
     public String getStatus() {
@@ -52,12 +50,5 @@ public class EventStatus extends SugarRecord<EventStatus> {
         this.status = status;
     }
 
-    public void save(){
-
-    }
-
-    public void load(String id){
-
-    }
 
 }

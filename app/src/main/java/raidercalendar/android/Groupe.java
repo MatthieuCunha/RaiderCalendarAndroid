@@ -8,7 +8,7 @@ public class Groupe extends SugarRecord<Groupe> {
 
    // private Long groupID;
     private String name;
-    private List<Long> members_id;
+    private List<Long> membersId;
 
     public Groupe(){
        // this.groupID=this.getId(); // recuperation de l'id sugarORM
@@ -25,7 +25,7 @@ public class Groupe extends SugarRecord<Groupe> {
     }
 
     public void addMember(Long playerID){
-        members_id.add(playerID);
+        membersId.add(playerID);
     }
 
    // public void setGroupID(Long groupID) {
@@ -41,11 +41,11 @@ public class Groupe extends SugarRecord<Groupe> {
     }
 
     public List<Long> getMembersID() {
-        return members_id;
+        return membersId;
     }
 
     public void setMembersID(Long[] membersID) {
-        this.members_id = members_id;
+        this.membersId = membersId;
     }
 
 }

@@ -50,8 +50,18 @@ public class MainCalendarActivity extends AppCompatActivity {
             public void onDayClick(Date dateClicked) {
                 //get day, check array , list event en popup
 
+                String[] events={}; // event array
 
-                 String[] events = {"Event1","Event2"}; // event array
+                List<eventPreview> eventPreviewList=dataRequest.getEventListByDay(TokenHolder.getInstance().getToken(),dateClicked);
+
+                int i = 0;
+                while (i < eventPreviewList.size()) {
+
+                    String name = eventPreviewList.get(i).getName();
+                    events[i]=name;
+                    i++;
+                }
+
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainCalendarActivity.this);
                 builder.setTitle("Event Choice");

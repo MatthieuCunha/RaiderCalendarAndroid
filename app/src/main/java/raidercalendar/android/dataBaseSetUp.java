@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.orm.SugarRecord;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class dataBaseSetUp {
 
@@ -17,8 +20,17 @@ public class dataBaseSetUp {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
-
+    /*
+    * create some data in the database for test purpose
+     */
     public  dataBaseSetUp(){
+
+        // delete previous data
+        eventPreview.deleteAll(eventPreview.class);
+        User.deleteAll(User.class);
+        EventStatus.deleteAll(EventStatus.class);
+        Groupe.deleteAll(Groupe.class);
+
         Date date = new Date();
         eventPreview ev1 = new eventPreview("event1",date);
         eventPreview ev2 = null;
