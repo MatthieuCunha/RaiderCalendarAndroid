@@ -3,6 +3,7 @@ package raidercalendar.android;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,10 +41,6 @@ public class MainCalendarActivity extends AppCompatActivity {
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-        // event de test
-        Event ev1 = new Event(Color.GREEN, 1547144536100L, "testEvent");
-        compactCalendar.addEvent(ev1);
-
         this.loadEvent();
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -50,28 +48,36 @@ public class MainCalendarActivity extends AppCompatActivity {
             public void onDayClick(Date dateClicked) {
                 //get day, check array , list event en popup
 
-                String[] events={}; // event array
+                List<String> eventNameList = new ArrayList<String>();
 
-                List<eventPreview> eventPreviewList=dataRequest.getEventListByDay(TokenHolder.getInstance().getToken(),dateClicked);
+                final List<eventPreview> eventPreviewList=dataRequest.getEventListByDay(TokenHolder.getInstance().getToken(),dateClicked);
 
                 int i = 0;
                 while (i < eventPreviewList.size()) {
 
                     String name = eventPreviewList.get(i).getName();
-                    events[i]=name;
+                    eventNameList.add(name);
                     i++;
                 }
 
+                final CharSequence[] events = eventNameList.toArray(new CharSequence[eventNameList.size()]);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainCalendarActivity.this);
                 builder.setTitle("Event Choice");
                 builder.setItems(events, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // the user clicked on colors[which]
+                        // the user clicked on event[which]
+                       Long id = eventPreviewList.get(which).getId();
+                       Intent intent = new Intent(MainCalendarActivity.this, eventDetailActivity.class);
+                       intent.putExtra("idEvent",id);
+                       startActivity(intent);
+
                     }
                 });
-                builder.show();
+                if(eventNameList.size()>0) {
+                    builder.show();
+                }
 
             }
 
@@ -86,6 +92,7 @@ public class MainCalendarActivity extends AppCompatActivity {
 
     private void loadEvent(){
 
+       // List<eventPreview> eventPreviewListFull=eventPreview.listAll(eventPreview.class);
         List<eventPreview> eventPreviewList=dataRequest.getEventList(TokenHolder.getInstance().getToken());
         int i = 0;
         while (i < eventPreviewList.size()) {

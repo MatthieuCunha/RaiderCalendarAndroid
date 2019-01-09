@@ -31,7 +31,7 @@ public class dataRequest {
         List<User> user = User.find(User.class,"token = ?", userToken);
         String userID=Long.toString(user.get(0).getID());
 
-        List<EventStatus> eventStatusListFull=  EventStatus.listAll(EventStatus.class);
+       // List<EventStatus> eventStatusListFull=  EventStatus.listAll(EventStatus.class);
 
         List<EventStatus> eventStatusList=EventStatus.find(EventStatus.class,"playerid = ?",userID);
         int i = 0;

@@ -35,7 +35,7 @@ public class dataBaseSetUp {
         eventPreview ev1 = new eventPreview("event1",date);
         eventPreview ev2 = null;
         try {
-            ev2 = new eventPreview("event2",dateFormat.parse("2019-02-10 21:00:00"));
+            ev2 = new eventPreview("event2",dateFormat.parse("2019-02-12 21:00:00"));
             ev2.save();
         } catch (ParseException e) {
             e.printStackTrace();
