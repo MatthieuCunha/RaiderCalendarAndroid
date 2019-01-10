@@ -92,7 +92,7 @@ public class MainCalendarActivity extends AppCompatActivity {
 
     private void loadEvent(){
 
-       // List<eventPreview> eventPreviewListFull=eventPreview.listAll(eventPreview.class);
+        List<eventPreview> eventPreviewListFull=eventPreview.listAll(eventPreview.class);
         List<eventPreview> eventPreviewList=dataRequest.getEventList(TokenHolder.getInstance().getToken());
         int i = 0;
         while (i < eventPreviewList.size()) {

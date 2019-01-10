@@ -1,7 +1,10 @@
 package raidercalendar.android;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,9 +36,32 @@ public class eventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        this.idEvent=getIntent().getExtras().getLong("idEvent");
+        final Long id = getIntent().getExtras().getLong("idEvent");
+        this.idEvent=id;
 
         eventPreview event = eventPreview.findById(eventPreview.class,this.idEvent);
+
+        Button absentButton = (Button) findViewById(R.id.absentButton) ;
+        absentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                // call to the fake API
+                dataRequest.setAbsent(id, TokenHolder.getInstance().getToken());
+                //reload
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+        Button presentButton = (Button) findViewById(R.id.presentButton) ;
+        presentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                // call to the fake API
+                dataRequest.setAvailable(id, TokenHolder.getInstance().getToken());
+                //reload
+                finish();
+                startActivity(getIntent());
+            }
+        });
 
         // get item from view
          eventName = (TextView) findViewById(R.id.title);

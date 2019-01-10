@@ -31,13 +31,12 @@
             />
 
             <TextView
-                android:id="@+id/titleAbsent"
+                android:id="@+id/titleAccepted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Absent"
                 android:layout_weight="1"
                 android:gravity="center"
-            />
+                android:text="Accepted" />
 
             <TextView
                 android:id="@+id/titlePending"
@@ -49,13 +48,12 @@
                 />
 
             <TextView
-                android:id="@+id/titleAccepted"
+                android:id="@+id/titleAbsent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accepted"
                 android:layout_weight="1"
                 android:gravity="center"
-            />
+                android:text="Absent" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,5 +108,25 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <Button
+        android:id="@+id/absentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Absent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/presentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="9dp"
+        android:text="Present"
+        app:layout_constraintEnd_toStartOf="@+id/absentButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

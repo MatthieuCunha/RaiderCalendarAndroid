@@ -65,4 +65,34 @@ public class dataRequest {
         return eventPreviewList;
     }
 
+
+    public static void setAbsent(Long eventId, String token){
+        List<User> userList = User.find(User.class, "token = ?", token);
+        Long userId = userList.get(0).getId();
+
+        List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(userId));
+        eventList.get(0).setStatus("ABSENT");
+        eventList.get(0).save();
+
+    }
+
+    public static void setAvailable(Long eventId, String token){
+        List<User> userList = User.find(User.class, "token = ?", token);
+        Long userId = userList.get(0).getId();
+
+        List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(userId));
+        eventList.get(0).setStatus("AVAILABLE");
+        eventList.get(0).save();
+    }
+
+    public static void setAccepted(Long eventId, String token){
+        List<User> userList = User.find(User.class, "token = ?", token);
+        Long userId = userList.get(0).getId();
+
+        List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(userId));
+        eventList.get(0).setStatus("ACCEPTED");
+        eventList.get(0).save();
+    }
+
+
 }

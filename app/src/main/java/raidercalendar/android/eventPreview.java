@@ -14,6 +14,7 @@ public class eventPreview  extends SugarRecord<eventPreview> {
    // private Long ID;
     private Date date;
     private String name;
+    private Long creatorid;
 
 
     @Ignore
@@ -23,10 +24,11 @@ public class eventPreview  extends SugarRecord<eventPreview> {
        // this.ID=this.getId(); // recuperation de l'id sugarORM
     };
 
-    public eventPreview(String name,Date date){
+    public eventPreview(String name,Date date,Long creatorid){
         this.name=name;
         this.date=date;
        // this.ID=this.getId(); // recuperation de l'id sugarORM
+        this.creatorid=creatorid;
 
 
     };
