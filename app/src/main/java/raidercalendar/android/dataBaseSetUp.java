@@ -48,9 +48,9 @@ public class dataBaseSetUp {
         user1.save();
         user2.save();
 
-        EventStatus eventStatus1 = new EventStatus(ev1.getID(),user1.getID());
-        EventStatus eventStatus2 = new EventStatus(ev2.getID(),user1.getID());
-        EventStatus eventStatus3 = new EventStatus(ev1.getID(),user2.getID());
+        EventStatus eventStatus1 = new EventStatus(ev1.getID(),user1.getID(),"role");
+        EventStatus eventStatus2 = new EventStatus(ev2.getID(),user1.getID(),"role");
+        EventStatus eventStatus3 = new EventStatus(ev1.getID(),user2.getID(),"role");
 
         eventStatus1.save();
         eventStatus2.save();

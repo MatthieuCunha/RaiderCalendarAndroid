@@ -14,11 +14,12 @@ public class EventStatus extends SugarRecord<EventStatus> {
 
     public EventStatus(){}
 
-    public EventStatus(long eventId,long playerId){
+    public EventStatus(long eventId,long playerId, String role){
        // this.uniqID=this.getId(); // recuperation de l'id sugarORM
         this.eventid=eventId;
         this.playerid=playerId;
         this.status="PENDING";
+        this.role=role;
     }
 
     public Long getID() {
