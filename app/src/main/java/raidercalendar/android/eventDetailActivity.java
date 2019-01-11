@@ -1,8 +1,11 @@
 package raidercalendar.android;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,6 +38,10 @@ public class eventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+
+        // menu bar
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Long id = getIntent().getExtras().getLong("idEvent");
         this.idEvent=id;
@@ -118,4 +125,38 @@ public class eventDetailActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_default, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+
+            // back button
+            case android.R.id.home:
+                Intent intentHome = new Intent(eventDetailActivity.this, MainCalendarActivity.class);
+                startActivity(intentHome);
+                break;
+            case R.id.action_joingroupe:
+                Intent intentJoin = new Intent(eventDetailActivity.this, joinGroupRequestActivity.class);
+                startActivity(intentJoin);
+                break;
+            case R.id.action_managegroupe:
+                Intent intentManage = new Intent(eventDetailActivity.this, manageGroupActivity.class);
+                startActivity(intentManage);
+                break;
+            case R.id.action_createEvent:
+                Intent intentCreate = new Intent(eventDetailActivity.this, createEventActivity.class);
+                startActivity(intentCreate);
+                break;
+        }
+
+        return true;
+    }
+
+
 }

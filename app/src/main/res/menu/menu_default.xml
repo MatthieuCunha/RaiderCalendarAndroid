@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="manageGroup"
+        android:id="@+id/action_managegroupe"
+        app:showAsAction="never"
+        />
+    <item android:title="joinGroupe"
+        android:id="@+id/action_joingroupe"
+        app:showAsAction="never"
+        />
+    <item android:title="createEvent"
+        android:id="@+id/action_createEvent"
+        app:showAsAction="never"
+        />
+
+</menu>

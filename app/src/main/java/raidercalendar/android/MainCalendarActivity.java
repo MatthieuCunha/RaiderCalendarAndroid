@@ -32,9 +32,10 @@ public class MainCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_calendar);
 
-       /* final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(false);
-        actionbar.setTitle(null);*/
+        final ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("MainCalendar");
+        actionbar.show();
 
         currentMonth = (TextView) findViewById(R.id.month);
 
@@ -92,7 +93,7 @@ public class MainCalendarActivity extends AppCompatActivity {
 
     private void loadEvent(){
 
-        List<eventPreview> eventPreviewListFull=eventPreview.listAll(eventPreview.class);
+       // List<eventPreview> eventPreviewListFull=eventPreview.listAll(eventPreview.class);
         List<eventPreview> eventPreviewList=dataRequest.getEventList(TokenHolder.getInstance().getToken());
         int i = 0;
         while (i < eventPreviewList.size()) {

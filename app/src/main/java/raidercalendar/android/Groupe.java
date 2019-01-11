@@ -2,30 +2,30 @@ package raidercalendar.android;
 
 import com.orm.SugarRecord;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 public class Groupe extends SugarRecord<Groupe> {
 
    // private Long groupID;
     private String name;
-    private List<Long> membersId;
+    private String joinToken;
+    private Long creatorId;
 
     public Groupe(){
        // this.groupID=this.getId(); // recuperation de l'id sugarORM
 
     };
 
-    public Groupe(String name){
+    public Groupe(String name, Long creatorId){
         this.name=name;
+        this.joinToken=randomToken.shortToken(8);
+        this.creatorId=creatorId;
       //  this.groupID=this.getId(); // recuperation de l'id sugarORM
     };
 
     public Long getGroupID() {
             return this.getId();
-    }
-
-    public void addMember(Long playerID){
-        membersId.add(playerID);
     }
 
    // public void setGroupID(Long groupID) {
@@ -40,12 +40,5 @@ public class Groupe extends SugarRecord<Groupe> {
         this.name = name;
     }
 
-    public List<Long> getMembersID() {
-        return membersId;
-    }
-
-    public void setMembersID(Long[] membersID) {
-        this.membersId = membersId;
-    }
 
 }
