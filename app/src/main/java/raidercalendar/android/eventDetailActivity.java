@@ -13,10 +13,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class eventDetailActivity extends AppCompatActivity {
+
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:");
 
     private Long idEvent;
     private eventPreview event;
@@ -76,11 +80,42 @@ public class eventDetailActivity extends AppCompatActivity {
          eventName = (TextView) findViewById(R.id.title);
         eventName.setText(event.getName()+" By "+dataRequest.getNameById(event.getCreatorid()));
          eventDate = (TextView) findViewById(R.id.date);
-        eventDate.setText(event.getDate().toString());
+        eventDate.setText(df.format(event.getDate()));
         listAbsent = (ListView) findViewById(R.id.listAbsent);
         listAccepted = (ListView) findViewById(R.id.listAccepted);
         listAvailable = (ListView) findViewById(R.id.listAvailable);
         listPending = (ListView) findViewById(R.id.listPending);
+
+        // listView on CLick switch target status
+        listAccepted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // only event creator can change other player status
+                EventStatus eventStatus= (EventStatus) listAccepted.getItemAtPosition(position);
+                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())){
+
+                    dataRequest.setAvailableById(eventStatus.getEventID(),eventStatus.getPlayerID());
+
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
+
+        listAvailable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventStatus eventStatus= (EventStatus) listAvailable.getItemAtPosition(position);
+                // only event creator can change other player status
+                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())) {
+                    dataRequest.setAcceptedById(eventStatus.getEventID(), eventStatus.getPlayerID());
+
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
+
 
         // create custom adaptater
         absentAdaptater = new playerAdaptater(eventDetailActivity.this, R.layout.listplayers,listAbsentItems);
@@ -126,36 +161,6 @@ public class eventDetailActivity extends AppCompatActivity {
             i++;
         }
 
-
-        // listView on CLick switch target status
-        listAccepted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // only event creator can change other player status
-                EventStatus eventStatus= (EventStatus) listAccepted.getItemAtPosition(position);
-                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())){
-
-                    dataRequest.setAvailableById(eventStatus.getEventID(),eventStatus.getPlayerID());
-
-                    finish();
-                    startActivity(getIntent());
-                }
-            }
-        });
-
-        listAccepted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EventStatus eventStatus= (EventStatus) listAccepted.getItemAtPosition(position);
-                // only event creator can change other player status
-                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())) {
-                    dataRequest.setAcceptedById(eventStatus.getEventID(), eventStatus.getPlayerID());
-
-                    finish();
-                    startActivity(getIntent());
-                }
-            }
-        });
 
     }
 

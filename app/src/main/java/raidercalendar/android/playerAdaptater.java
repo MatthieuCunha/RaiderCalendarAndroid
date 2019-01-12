@@ -61,8 +61,15 @@ public class playerAdaptater  extends ArrayAdapter<EventStatus> {
         return playerView;
     }
 
+    @Override
     public EventStatus getItem(int position){
         return items.get(position);
+    }
+
+    @Override
+    public boolean isEnabled(int position)
+    {
+        return true;
     }
 
 }
