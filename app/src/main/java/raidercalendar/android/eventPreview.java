@@ -65,4 +65,11 @@ public class eventPreview  extends SugarRecord<eventPreview> {
         this.status = status;
     }
 
+    public Long getCreatorid() {
+        return creatorid;
+    }
+
+    public void setCreatorid(Long creatorid) {
+        this.creatorid = creatorid;
+    }
 }

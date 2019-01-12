@@ -24,6 +24,16 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class dataRequest {
 
+    public static String getStatus(Long eventId,String userToken){
+        List<User> userList= User.find(User.class,"token = ?", userToken);
+        User user = userList.get(0);
+
+       List<EventStatus> eventStatus = EventStatus.find(EventStatus.class,"eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(user.getId()));
+        return eventStatus.get(0).getStatus();
+
+    }
+
+
     // get groupe joined or created by the user
     public static List<Groupe> getGroupList(String userToken){
 
@@ -116,12 +126,27 @@ public class dataRequest {
         eventList.get(0).save();
     }
 
-    // set the user Absent for the event
+    //set the user available for the event using is ID
+    public static void setAvailableById(Long eventId, Long playerId){
+
+        List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(playerId));
+        eventList.get(0).setStatus("AVAILABLE");
+        eventList.get(0).save();
+    }
+
+    // set the user accepted for the event
     public static void setAccepted(Long eventId, String token){
         List<User> userList = User.find(User.class, "token = ?", token);
         Long userId = userList.get(0).getId();
 
         List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(userId));
+        eventList.get(0).setStatus("ACCEPTED");
+        eventList.get(0).save();
+    }
+
+    public static void setAcceptedById(Long eventId, Long playerId){
+
+        List<EventStatus> eventList = EventStatus.find(EventStatus.class, "eventid = ? and playerid = ?",Long.toString(eventId),Long.toString(playerId));
         eventList.get(0).setStatus("ACCEPTED");
         eventList.get(0).save();
     }
@@ -140,7 +165,7 @@ public class dataRequest {
             Groupe groupe = groupeList.get(0);
             User user = userList.get(0);
 
-            List<GroupeMembers> groupeMemberList = GroupeMembers.find(GroupeMembers.class,"groupid = ? and playerid= ?", Long.toString(groupe.getId()),Long.toString(user.getId()));
+            List<GroupeMembers> groupeMemberList = GroupeMembers.find(GroupeMembers.class,"groupeid = ? and playerid= ?", Long.toString(groupe.getId()),Long.toString(user.getId()));
             if(groupeMemberList.size()==0) {
                 GroupeMembers groupeMembers = new GroupeMembers(groupe.getName(), groupe.getId(), user.getId());
                 return "Request Sent";
@@ -216,15 +241,17 @@ public class dataRequest {
             List<saltList> loginInfoList = saltList.find(saltList.class,"userid = ?", Long.toString(user.getId()));
             saltList loginInfo = loginInfoList.get(0);
 
-            if(get_SHA_512_SecurePassword(password,loginInfo.getSalt())==loginInfo.getPassword()){
+            String dbPassword = loginInfo.getPassword();
+            String testPassword = get_SHA_512_SecurePassword(password,loginInfo.getSalt());
+            if(dbPassword.equals(testPassword)){
                return user.getToken();
            }
        }
        return null;
    }
 
-   public static String createAccount(String login, String password){
-        String message="";
+   public static User createAccount(String login, String password){
+       User user=null;
 
        List<User> userList= User.find(User.class,"name = ?",login);
 
@@ -233,23 +260,22 @@ public class dataRequest {
            String salt=makeSalt();
            String passwordHash=get_SHA_512_SecurePassword(password,salt.toString());
            // need longer token for real use, but only 1 rreal user anyway for now.
-            User user = new User(login,randomToken.shortToken(18));
+             user = new User(login,randomToken.shortToken(18));
             user.save();
 
             saltList saltList=new saltList(user.getId(),passwordHash,salt);
             saltList.save();
-            message="OK";
 
-       }else{
-           message="Login name already used";
+
        }
 
-       return message;
+       return user;
    }
 
 
    // don't work
-   private static String hashPBKDF(String password,byte[] salt){
+   private static String hashPBKDF(String password,String saltString){
+       byte[] salt = saltString.getBytes(StandardCharsets.UTF_8);
        byte[] hash=new byte[0];
        SecureRandom random = new SecureRandom();
        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
@@ -298,6 +324,24 @@ public class dataRequest {
             e.printStackTrace();
         }
         return generatedPassword;
+    }
+
+
+    public static Long getMyId(String token){
+        List<User> user = User.find(User.class,"token = ?", token);
+        Long userID=user.get(0).getID();
+        return userID;
+    }
+
+    public static String getNameById(Long playerId){
+        User user = User.findById(User.class,playerId);
+        String name= user.getName();
+        return name;
+    }
+
+    public static eventPreview getEventPreview(Long eventId){
+        eventPreview event = eventPreview.findById(eventPreview.class,eventId);;
+        return event;
     }
 
 }

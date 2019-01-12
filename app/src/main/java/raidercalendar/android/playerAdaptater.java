@@ -15,10 +15,13 @@ public class playerAdaptater  extends ArrayAdapter<EventStatus> {
     int resource;
     String response;
     Context context;
+    List<EventStatus> items;
+
     //Initialize adapter
     public playerAdaptater(Context context, int resource, List<EventStatus> items) {
         super(context, resource, items);
         this.resource=resource;
+        this.items=items;
     }
 
 
@@ -56,6 +59,10 @@ public class playerAdaptater  extends ArrayAdapter<EventStatus> {
         playerRole.setText(eventStatus.getRole());
 
         return playerView;
+    }
+
+    public EventStatus getItem(int position){
+        return items.get(position);
     }
 
 }

@@ -103,8 +103,27 @@ public class MainCalendarActivity extends AppCompatActivity {
             String name = eventPreviewList.get(i).getName();
             String status = eventPreviewList.get(i).getStatus();
             Date date = eventPreviewList.get(i).getDate();
+            Long eventId = eventPreviewList.get(i).getId();
 
-            Event ev1 = new Event(Color.GREEN, date.getTime() , name);
+           String Status= dataRequest.getStatus(eventId,TokenHolder.getInstance().getToken());
+           int color = Color.GRAY;
+            switch (Status){
+                case "AVAILABLE":
+                    color = Color.BLUE;
+                    break;
+                case "ACCEPTED":
+                    color = Color.GREEN;
+                    break;
+                case "ABSENT":
+                    color = Color.RED;
+                    break;
+                case "PENDING":
+                    color = Color.GRAY;
+                    break;
+
+            }
+
+            Event ev1 = new Event(color, date.getTime() , name);
             compactCalendar.addEvent(ev1);
 
             i++;

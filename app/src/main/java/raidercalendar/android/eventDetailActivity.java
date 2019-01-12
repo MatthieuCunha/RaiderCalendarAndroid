@@ -1,12 +1,14 @@
 package raidercalendar.android;
 
 import android.content.Intent;
+import android.media.session.MediaSession;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import java.util.List;
 public class eventDetailActivity extends AppCompatActivity {
 
     private Long idEvent;
+    private eventPreview event;
     private TextView eventDate;
     private TextView eventName;
     private ListView listPending;
@@ -45,8 +48,7 @@ public class eventDetailActivity extends AppCompatActivity {
 
         final Long id = getIntent().getExtras().getLong("idEvent");
         this.idEvent=id;
-
-        eventPreview event = eventPreview.findById(eventPreview.class,this.idEvent);
+        event=dataRequest.getEventPreview(this.idEvent);
 
         Button absentButton = (Button) findViewById(R.id.absentButton) ;
         absentButton.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,7 @@ public class eventDetailActivity extends AppCompatActivity {
 
         // get item from view
          eventName = (TextView) findViewById(R.id.title);
-        eventName.setText(event.getName());
+        eventName.setText(event.getName()+" By "+dataRequest.getNameById(event.getCreatorid()));
          eventDate = (TextView) findViewById(R.id.date);
         eventDate.setText(event.getDate().toString());
         listAbsent = (ListView) findViewById(R.id.listAbsent);
@@ -123,6 +125,37 @@ public class eventDetailActivity extends AppCompatActivity {
 
             i++;
         }
+
+
+        // listView on CLick switch target status
+        listAccepted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // only event creator can change other player status
+                EventStatus eventStatus= (EventStatus) listAccepted.getItemAtPosition(position);
+                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())){
+
+                    dataRequest.setAvailableById(eventStatus.getEventID(),eventStatus.getPlayerID());
+
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
+
+        listAccepted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventStatus eventStatus= (EventStatus) listAccepted.getItemAtPosition(position);
+                // only event creator can change other player status
+                if(event.getCreatorid()==dataRequest.getMyId(TokenHolder.getInstance().getToken())) {
+                    dataRequest.setAcceptedById(eventStatus.getEventID(), eventStatus.getPlayerID());
+
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
 
     }
 
