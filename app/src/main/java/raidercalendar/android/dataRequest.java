@@ -3,10 +3,20 @@ package raidercalendar.android;
 import android.util.ArrayMap;
 import android.util.EventLog;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.acl.Group;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 /*
 * Handle raidercalendar.android.dataRequest from the different activity
@@ -150,10 +160,15 @@ public class dataRequest {
         Groupe group = new Groupe(groupeName,creatorId);
         group.save();
 
+        // ajoute le createur au groupe
+        GroupeMembers gm = new GroupeMembers(group.getName(),group.getId(),creatorId);
+        gm.save();
+
+
     }
 
     // create a new event for the group
-    public static void createEvent(String name,Date date ,String creatorToken, Long groupeId){
+    public static Long createEvent(String name,Date date ,String creatorToken, Long groupeId){
 
         List<User> user= User.find(User.class,"token = ?", creatorToken);
         Long creatorId = user.get(0).getId();
@@ -168,11 +183,121 @@ public class dataRequest {
         while (i < members.size()) {
             Long playerId = members.get(i).getPlayerid();
             EventStatus eventStatus = new EventStatus(event.getId(),playerId,"");
+            eventStatus.save();
             i++;
         }
 
+        return event.getId();
     }
 
+   /* public static void createInvitation(Long eventId, Long groupID){
+        List<GroupeMembers> memberOf = GroupeMembers.find(GroupeMembers.class, "groupeid = ?", Long.toString(groupID));
+        int i = 0;
+        while (i < memberOf.size()) {
+            Long playerId = memberOf.get(i).getPlayerid();
+            EventStatus eventStatus=new EventStatus(eventId, playerId, "");
+            eventStatus.save();
 
+            i++;
+        }
+
+    }*/
+
+   public static String login(String login,String password){
+
+       List<User> userList= User.find(User.class,"name = ?",login);
+
+       // no user with this name
+       if(userList.size()==0){
+           return null;
+       }else{
+           User user=userList.get(0);
+           // hash password et comparer avec le hash en DB
+            List<saltList> loginInfoList = saltList.find(saltList.class,"userid = ?", Long.toString(user.getId()));
+            saltList loginInfo = loginInfoList.get(0);
+
+            if(get_SHA_512_SecurePassword(password,loginInfo.getSalt())==loginInfo.getPassword()){
+               return user.getToken();
+           }
+       }
+       return null;
+   }
+
+   public static String createAccount(String login, String password){
+        String message="";
+
+       List<User> userList= User.find(User.class,"name = ?",login);
+
+       // no user with this name
+       if(userList.size()==0){
+           String salt=makeSalt();
+           String passwordHash=get_SHA_512_SecurePassword(password,salt.toString());
+           // need longer token for real use, but only 1 rreal user anyway for now.
+            User user = new User(login,randomToken.shortToken(18));
+            user.save();
+
+            saltList saltList=new saltList(user.getId(),passwordHash,salt);
+            saltList.save();
+            message="OK";
+
+       }else{
+           message="Login name already used";
+       }
+
+       return message;
+   }
+
+
+   // don't work
+   private static String hashPBKDF(String password,byte[] salt){
+       byte[] hash=new byte[0];
+       SecureRandom random = new SecureRandom();
+       KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+       SecretKeyFactory factory = null;
+       try {
+           factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+       } catch (NoSuchAlgorithmException e) {
+           e.printStackTrace();
+       }
+       try {
+          hash = factory.generateSecret(spec).getEncoded();
+       } catch (InvalidKeySpecException e) {
+           e.printStackTrace();
+       }
+
+       String passwordHash="";
+       try {
+           passwordHash = new String(hash,"UTF-8");
+       } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
+       }
+    return passwordHash;
+   }
+
+   private static String makeSalt(){
+       SecureRandom random = new SecureRandom();
+       byte[] salt = new byte[16];
+       random.nextBytes(salt);
+       return salt.toString();
+   }
+
+   // too weak for password, but this project is useless anyway
+    public static String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
 
 }

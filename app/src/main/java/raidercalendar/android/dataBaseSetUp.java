@@ -32,12 +32,13 @@ public class dataBaseSetUp {
         Groupe.deleteAll(Groupe.class);
 
 
-        User user1=new User("user1","password","tmpToken");
-        User user2=new User("user2","password","token1");
-        User user3=new User("user3","password","token2");
-        User user4=new User("user4","password","token3");
-        User user5=new User("user5","password","token4");
-        User user6=new User("user6","password","token5");
+        dataRequest.createAccount("test","test");
+        User user1=new User("user1","tmpToken");
+        User user2=new User("user2","token1");
+        User user3=new User("user3","token2");
+        User user4=new User("user4","token3");
+        User user5=new User("user5","token4");
+        User user6=new User("user6","token5");
 
         user1.save();
         user2.save();

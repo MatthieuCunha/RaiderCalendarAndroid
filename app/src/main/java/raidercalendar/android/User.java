@@ -6,7 +6,6 @@ public class User extends SugarRecord<User> {
 
   // private Long ID;
    private String name;
-   private String password;
 
    private String token; // fix ici, variable si update pour utiliser l'API. a separer dans une autre class pour eviter d'etre envoyer lors des requetes
 
@@ -16,11 +15,10 @@ public class User extends SugarRecord<User> {
 
     }
 
-    public User(String name,String password, String token){
+    public User(String name, String token){
         // uniquement les temps des test
       //  this.ID=this.getId(); // recuperation de l'id sugarORM
         this.name=name;
-        this.password=password;
         this.token=token;
     }
 
@@ -38,14 +36,6 @@ public class User extends SugarRecord<User> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getToken() {
