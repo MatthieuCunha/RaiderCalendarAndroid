@@ -3,6 +3,7 @@ package raidercalendar.android;
 import android.util.ArrayMap;
 import android.util.EventLog;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,12 +15,25 @@ import java.util.List;
 public class dataRequest {
 
     // get groupe joined or created by the user
-    public static List<GroupeMembers> getGroupList(String userToken){
+    public static List<Groupe> getGroupList(String userToken){
+
+        List<Groupe> groupList = new ArrayList<Groupe>();
+
         List<User> userList= User.find(User.class,"token = ?", userToken);
         User user = userList.get(0);
 
         List<GroupeMembers> memberOf = GroupeMembers.find(GroupeMembers.class, "playerid = ?", Long.toString(user.getId()));
-        return memberOf;
+        int i = 0;
+        while (i < memberOf.size()) {
+            Long groupId = memberOf.get(i).getGroupeid();
+            Groupe groupe = Groupe.findById(Groupe.class,groupId);
+            groupList.add(groupe);
+
+            i++;
+        }
+
+
+        return groupList;
     }
 
     public static String[] getAvailableGame(){
@@ -105,19 +119,25 @@ public class dataRequest {
     // create a pending request to join a group
     // TODO if enough time
     // for now instantly accepted to group
-    public static boolean groupRequest(String groupeToken, String playerToken){
+    public static String groupRequest(String groupeToken, String playerToken){
         List<User> userList= User.find(User.class,"token = ?", playerToken);
-        List<Groupe> groupeList = Groupe.find(Groupe.class, "joinToken = ? ", groupeToken);
+        List<Groupe> groupeList = Groupe.find(Groupe.class, "jointoken = ? ", groupeToken);
 
         if(groupeList.size()==0){
-            return false;
+            return "Unknown token";
         }else {
 
             Groupe groupe = groupeList.get(0);
             User user = userList.get(0);
 
-            GroupeMembers groupeMembers = new GroupeMembers(groupe.getName(), groupe.getId(), user.getId());
-            return true;
+            List<GroupeMembers> groupeMemberList = GroupeMembers.find(GroupeMembers.class,"groupid = ? and playerid= ?", Long.toString(groupe.getId()),Long.toString(user.getId()));
+            if(groupeMemberList.size()==0) {
+                GroupeMembers groupeMembers = new GroupeMembers(groupe.getName(), groupe.getId(), user.getId());
+                return "Request Sent";
+            }else{
+                return "You are already a member of this group";
+            }
+
         }
 
     }
@@ -127,8 +147,8 @@ public class dataRequest {
 
         List<User> user= User.find(User.class,"token = ?", creatorToken);
         Long creatorId = user.get(0).getId();
-        Groupe groupe = new Groupe(groupeName,creatorId);
-        groupe.save();
+        Groupe group = new Groupe(groupeName,creatorId);
+        group.save();
 
     }
 

@@ -14,29 +14,11 @@
         android:layout_marginTop="67dp"
         android:layout_marginEnd="85dp"
         android:ems="10"
+        android:hint="Groupe Token"
         android:inputType="textPersonName"
-        android:text="Groupe Token"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        tools:layout_editor_absoluteX="73dp"
-        tools:layout_editor_absoluteY="270dp" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time"
-        tools:layout_editor_absoluteX="73dp"
-        tools:layout_editor_absoluteY="339dp" />
 
     <Button
         android:id="@+id/buttonSend"

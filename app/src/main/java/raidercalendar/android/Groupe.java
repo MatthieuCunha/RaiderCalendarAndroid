@@ -9,7 +9,7 @@ public class Groupe extends SugarRecord<Groupe> {
 
    // private Long groupID;
     private String name;
-    private String joinToken;
+    private String jointoken;
     private Long creatorId;
 
     public Groupe(){
@@ -19,7 +19,7 @@ public class Groupe extends SugarRecord<Groupe> {
 
     public Groupe(String name, Long creatorId){
         this.name=name;
-        this.joinToken=randomToken.shortToken(8);
+        this.jointoken=randomToken.shortToken(8);
         this.creatorId=creatorId;
       //  this.groupID=this.getId(); // recuperation de l'id sugarORM
     };
@@ -40,5 +40,12 @@ public class Groupe extends SugarRecord<Groupe> {
         this.name = name;
     }
 
+    public String getJoinToken() {
+        return jointoken;
+    }
+
+    public void setJoinToken(String joinToken) {
+        this.jointoken = joinToken;
+    }
 
 }

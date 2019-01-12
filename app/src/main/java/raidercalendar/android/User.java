@@ -7,7 +7,8 @@ public class User extends SugarRecord<User> {
   // private Long ID;
    private String name;
    private String password;
-   private String token; // fix ici, variable si update pour utiliser l'API
+
+   private String token; // fix ici, variable si update pour utiliser l'API. a separer dans une autre class pour eviter d'etre envoyer lors des requetes
 
 
     public User(){

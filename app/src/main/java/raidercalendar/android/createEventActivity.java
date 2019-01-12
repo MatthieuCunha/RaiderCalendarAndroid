@@ -5,6 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class createEventActivity extends AppCompatActivity {
 
@@ -12,6 +20,41 @@ public class createEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        EditText eventNameEdit = (EditText) findViewById(R.id.eventName);
+        final String eventName = eventNameEdit.getText().toString();
+
+        EditText eventDateEdit = (EditText) findViewById(R.id.eventDate);
+        EditText eventTimeEdit = (EditText) findViewById(R.id.eventTime);
+
+        // groupChoice
+        Spinner groupSpinner = (Spinner) findViewById(R.id.groupSpinner);
+        List<Groupe> groupList= dataRequest.getGroupList(TokenHolder.getInstance().getToken());
+        ArrayAdapter<Groupe> groupAdaptater = new groupAdaptater(createEventActivity.this, R.layout.listgroup, groupList);
+        groupSpinner.setAdapter(groupAdaptater);
+
+        // Button clic
+        Button createEventButton = (Button) findViewById(R.id.createButton);
+        final EditText groupeToken = findViewById(R.id.groupeToken);
+
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                // call to the fake API
+                String toastText;
+
+                if(eventName.length()==0){
+                    toastText="Must name the event";
+                    Toast toast = Toast.makeText(getApplicationContext(),toastText, Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    // créer l'event
+                }
+
+
+            }
+        });
+
+
     }
 
     @Override

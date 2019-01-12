@@ -83,6 +83,25 @@ public class dataBaseSetUp {
         eventStatus7.save();
         eventStatus8.save();
 
+        Groupe groupe1 = new Groupe("groupe1",user1.getId());
+        Groupe groupe2 = new Groupe("groupe2",user2.getId());
+        groupe2.setJoinToken("tokentest");
+        Groupe groupe3 = new Groupe("groupe3",user1.getId());
+
+        groupe1.save();
+        groupe2.save();
+        groupe3.save();
+
+        GroupeMembers member1 = new GroupeMembers("group1",groupe1.getId(),user1.getId());
+        GroupeMembers member2 = new GroupeMembers("group1",groupe1.getId(),user2.getId());
+        GroupeMembers member3 = new GroupeMembers("group1",groupe1.getId(),user3.getId());
+        GroupeMembers member4 = new GroupeMembers("group2",groupe2.getId(),user3.getId());
+
+        member1.save();
+        member2.save();
+        member3.save();
+        member4.save();
+
     }
 
 }

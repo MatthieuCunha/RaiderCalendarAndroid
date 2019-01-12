@@ -25,15 +25,11 @@ public class joinGroupRequestActivity extends AppCompatActivity {
         sendRequestButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 // call to the fake API
-                boolean success=dataRequest.groupRequest(groupeToken.getText().toString(),TokenHolder.getInstance().getToken());
+                String message=dataRequest.groupRequest(groupeToken.getText().toString(),TokenHolder.getInstance().getToken());
 
-                if (success){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Request Sent", Toast.LENGTH_SHORT);
-                    toast.show();
-                }else{
-                    Toast toast = Toast.makeText(getApplicationContext(), "Unknown token", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                Toast toast = Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT);
+                toast.show();
+
             }
         });
 

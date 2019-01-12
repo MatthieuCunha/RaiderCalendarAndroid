@@ -27,6 +27,7 @@ public class loginPage extends AppCompatActivity {
                 Intent intent = new Intent(loginPage.this, MainCalendarActivity.class);
 
                 /* requete API et recuperation du token*/
+                // TODO, add real login at the end
                 TokenHolder.getInstance().setToken("tmpToken");
 
                 startActivity(intent);
