@@ -18,12 +18,16 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class createEventActivity extends AppCompatActivity {
+
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
     Context context=createEventActivity.this;
     Button datePick;
@@ -136,13 +140,13 @@ public class createEventActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 date.set(year, monthOfYear, dayOfMonth);
-                datePick.setText(date.getTime().toString());
+                datePick.setText(df.format(date.getTime()));
                 new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        datePick.setText(date.getTime().toString());
+                        datePick.setText(df.format(date.getTime()));
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
             }

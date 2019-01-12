@@ -168,6 +168,7 @@ public class dataRequest {
             List<GroupeMembers> groupeMemberList = GroupeMembers.find(GroupeMembers.class,"groupeid = ? and playerid= ?", Long.toString(groupe.getId()),Long.toString(user.getId()));
             if(groupeMemberList.size()==0) {
                 GroupeMembers groupeMembers = new GroupeMembers(groupe.getName(), groupe.getId(), user.getId());
+                groupeMembers.save();
                 return "Request Sent";
             }else{
                 return "You are already a member of this group";

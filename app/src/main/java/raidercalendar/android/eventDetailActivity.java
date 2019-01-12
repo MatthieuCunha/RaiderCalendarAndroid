@@ -20,7 +20,7 @@ import java.util.List;
 
 public class eventDetailActivity extends AppCompatActivity {
 
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:");
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
     private Long idEvent;
     private eventPreview event;
